@@ -304,3 +304,20 @@ int CP2110_setGPIOPin(CP2110_dev *handle, uint8_t pin, uint8_t state) {
   if (ret <= 0) return -1;
   return 0;
 }
+
+int CP2110_setGPIOConfig(CP2110_dev *handle, uint8_t pin, uint8_t mode) {
+  int ret;
+  uint8_t buf[11];
+
+  if (pin > 9 || (pin > 5 && mode == GPIO_ALTERNATE)) {
+    return -1;
+  }
+
+  buf[0] = REPORT_GET_SET_GPIO_CONFIG;
+  buf[pin+1] = mode;
+
+  ret = hid_send_feature_report(handle, buf, sizeof(buf));
+  if (ret <= 0) return -1;
+  return 0;
+}
+

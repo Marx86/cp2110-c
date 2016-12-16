@@ -40,6 +40,7 @@
 #define REPORT_GET_GPIO_VALUES     0x44
 #define REPORT_SET_GPIO_VALUES     0x45
 #define REPORT_GET_SET_UART_CONFIG 0x50
+#define REPORT_GET_SET_GPIO_CONFIG 0x66
 
 #define CP2110_GPIO0_MASK (0x1)
 #define CP2110_GPIO1_MASK (0x1<<1)
@@ -51,6 +52,11 @@
 #define CP2110_GPIO7_MASK (0x1<<11)
 #define CP2110_GPIO8_MASK (0x1<<12)
 #define CP2110_GPIO9_MASK (0x1<<13)
+
+#define GPIO_IN             0x00
+#define GPIO_OUT_OPEN_DRAIN 0x01
+#define GPIO_OUT_PUSH_PULL  0x02
+#define GPIO_ALTERNATE      0x03
 
 /**
  * A connected CP2110 device handle.
@@ -229,5 +235,16 @@ int CP2110_getGPIOPin(CP2110_dev *handle, uint8_t pin);
  * @return Returns 0 if successful, -1 if error.
  */
 int CP2110_setGPIOPin(CP2110_dev *handle, uint8_t pin, uint8_t state);
+
+/**
+ * @brief Sets the mode of the given GPIO pin.
+ *
+ * @param handle CP2110_dev pointer of the connected CP2110.
+ * @param pin the GPIO pin to set (0-9).
+ * @param mode the mode of the pin.
+ *
+ * @return Returns 0 if successful, -1 if error.
+ */
+int CP2110_setGPIOConfig(CP2110_dev *handle, uint8_t pin, uint8_t mode);
 
 #endif
